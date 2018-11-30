@@ -1,0 +1,39 @@
+extends ../layouts/default
+
+block intro
+	.container
+		h1 List of Courses
+
+block content
+	block content
+	.container: .row
+		.col-sm-8.col-md-9
+			.row
+				if data.courses.results.length
+					each course in data.courses.results
+						.col-sm-6.col-md-4
+							.thumbnail
+								if course.headerimage.exists
+									a(href='/courses/' + course.slug): img.img-responsiv(src=course._.headerimage.thumbnail(200,200))
+								.caption
+									.row
+										.col-md-6.col-xs-6
+											h3: a(href='/courses/' + course.slug)= course.title
+										
+					if data.courses.totalPages > 1
+						.col-sm-12.col-md-12
+							ul.pagination
+								if data.courses.previous
+									li: a(href='?page=' + data.courses.previous): span.glyphicon.glyphicon-chevron-left
+								else
+									li.disabled: a(href='?page=' + 1): span.glyphicon.glyphicon-chevron-left
+								each p, i in data.courses.pages
+									li(class=data.courses.currentPage == p ? 'active' : null)
+										a(href='?page=' + (p == '...' ? (i ? data.courses.totalPages : 1) : p ))= p
+								if data.courses.next
+									li: a(href='?page=' + data.courses.next): span.glyphicon.glyphicon-chevron-right
+								else
+									li.disabled: a(href='?page=' + data.courses.totalPages): span.entypo.glyphicon.glyphicon-chevron-right
+				else
+					h3.text-muted Courses Not Found.	
+	

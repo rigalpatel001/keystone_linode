@@ -1,0 +1,55 @@
+extends ../layouts/default
+
+block content
+    .container
+        .row
+            .col-xs-12.col-sm-8.col-md-8.col-sm-offset-2.col-md-offset-2
+                form(method='post')
+                    h2
+                        | Create User In CRM
+                        small 
+                    hr.colorgraph
+                    .row
+                        .col-xs-12.col-sm-6.col-md-6
+                            .form-group
+                                input#first_name.form-control.input-lg(type='text', name='first_name', value=formData.first_name,placeholder='First Name', tabindex='1')
+                        .col-xs-12.col-sm-6.col-md-6
+                            .form-group
+                                input#last_name.form-control.input-lg(type='text', name='last_name',value=formData.last_name, placeholder='Last Name', tabindex='2')
+                    .form-group
+                        input#display_name.form-control.input-lg(type='text', name='phone_work',value=formData.phone_work,placeholder='Phone Number', tabindex='3')
+                    .form-group
+                        input#email.form-control.input-lg(type='email', name='email1',value=formData.email1, placeholder='Email Address', tabindex='4')
+                    hr.colorgraph
+                    .row
+                        .col-xs-12.col-md-6
+                            input.btn.btn-primary.btn-block.btn-lg(type='submit', value='Register', tabindex='7')
+            .col-xs-12.col-sm-8.col-md-8.col-sm-offset-2.col-md-offset-2
+                h2 List of  Users
+                table.table.table-striped
+                    thead
+                        tr
+                        th(scope='col') #
+                        th(scope='col') First
+                        th(scope='col') Last
+                        th(scope='col') Phone
+                        th(scope='col') Delete
+                    tbody
+                        - count = 1
+                        each user in data.userlist
+                            tr
+                                th(scope='row')= count
+                                td= user.attributes.first_name
+                                td= user.attributes.last_name
+                                td= user.attributes.phone_work
+                                td: a.removecrm_user(href='/crm/remove/?id=' + user.id): span.glyphicon.glyphicon-trash
+                            - count++    
+block js
+    script.
+        jQuery('a.removecrm_user').on('click', function (e) {
+        //e.preventDefault();
+        if (!confirm('Confirm Delete Record?'))
+        return false;
+        
+        });                                
+

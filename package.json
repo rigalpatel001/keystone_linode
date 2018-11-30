@@ -1,0 +1,29 @@
+{
+  "name": "keystone_cart",
+  "version": "0.0.0",
+  "engines": {
+    "node": "10.9.0"
+  },
+  "private": true,
+  "dependencies": {
+    "async": "2.1.4",
+    "dotenv": "4.0.0",
+    "keystone": "^4.0.0",
+    "keystone-email": "^1.1.0",
+    "lodash": "^4.13.1",
+    "node-sass": "^4.10.0",
+    "node-sass-middleware": "^0.11.0",
+    "node-sugarcrm-client": "^0.9.3",
+    "pm2": "^3.2.2",
+    "pug": "2.0.0-beta11"
+  },
+  "devDependencies": {
+    "eslint": "3.15.0",
+    "eslint-config-keystone": "3.0.0",
+    "eslint-plugin-react": "^5.1.1"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "start": "node keystone.js"
+  }
+}

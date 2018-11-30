@@ -1,0 +1,76 @@
+extends ../layouts/default
+
+block content
+    .container.mtsec
+        - var user = data.user
+        if !user
+            h2 Opps!! User not found.
+        else
+            .col-md-12.profile_sec_wrp
+                .col-md-4
+                    .portlet.light.profile-sidebar-portlet.bordered
+                        .profile-userpic
+                            img.img-responsive(src='https://bootdey.com/img/Content/avatar/avatar6.png', alt='')
+                        .profile-usertitle
+                            .profile-usertitle-name= user.name.first + ' ' + user.name.last
+                            .profile-usertitle-job  Developer 
+                        .profile-userbuttons
+                            button.btn.btn-info.btn-sm(type='button') Follow
+                            button.btn.btn-info.btn-sm(type='button') Message
+                .col-md-8
+                    .portlet.light.bordered
+                        .portlet-title.tabbable-line
+                            .caption.caption-md
+                            i.icon-globe.theme-font.hide
+                            span.caption-subject.font-blue-madison.bold.uppercase   
+                        .portlet-body
+                            div
+                            // Nav tabs
+                            ul.nav.nav-tabs(role='tablist')
+                                li(role='presentation')
+                                    a(href='#profile', aria-controls='profile', role='tab', data-toggle='tab') Profile
+                                li.active(role='presentation')
+                                    a(href='#home', aria-controls='home', role='tab', data-toggle='tab') Update
+                                li(role='presentation')
+                                    a(href='#messages', aria-controls='messages', role='tab', data-toggle='tab') Messages
+                                li(role='presentation')
+                                    a(href='#settings', aria-controls='settings', role='tab', data-toggle='tab') Settings
+                            // Tab panes
+                            .tab-content
+                                #profile.tab-pane(role='tabpanel')
+                                    .row.mt-3
+                                        .col-md-6
+                                            label User Id
+                                        .col-md-6
+                                            p= user.username
+
+                                    .row
+                                        .col-md-6
+                                            label Name
+                                        .col-md-6
+                                            p= user.name.first + ' ' + user.name.last
+                                    .row
+                                        .col-md-6
+                                            label Email
+                                        .col-md-6
+                                            p= user.email
+                                #home.tab-pane.active(role='tabpanel')
+                                    form(method="post")
+                                        .form-group
+                                        label(for='inputName') Name
+                                        input#inputName.form-control(type='text',name='fname' ,placeholder='Name' value=user.name.first)
+                                        .form-group
+                                        label(for='inputLastName') Last Name
+                                        input#inputLastName.form-control(type='text', name='lastname',placeholder='Last Name' value=user.name.last)
+                                        .form-group
+                                        label(for='inputUserName') Username
+                                        input#inputLastName.form-control(type='text', name='username',placeholder='User Name' value=user.username)
+                                        .form-group
+                                        label(for='exampleInputEmail1') Email address
+                                        input#exampleInputEmail1.form-control(type='email', name='email',placeholder='Email' value=user.email)
+                                        .form-group
+                                        input#inputName.form-control(type='hidden',name='id' value=user._id)
+                                        button.btn.btn-default(type='submit') Submit
+                                #messages.tab-pane(role='tabpanel') Messages
+                                #settings.tab-pane(role='tabpanel') Settings
+

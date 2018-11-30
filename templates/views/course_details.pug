@@ -1,0 +1,84 @@
+extends ../layouts/default
+
+block intro
+	.container
+
+block content
+	block content
+	- var course = data.courses
+	if !course
+		h2 Opps!! Course does not found..
+	else
+		.container-fluid.bannerimg 
+		if course.headerimage.exists 
+			img.img-responsiv(src=course._.headerimage.fit())
+		.container
+			.course-summary
+				.xt-single-course-header.clearfix
+					h1.course-title.entry-title.maintitle(itemprop='name')= course.title 
+				.xt-module-into-summary.xt-single-course-header.clearfix
+					h1.course-title.entry-title(itemprop='name') Module Short Description
+					p!= course.shortdescription
+				.xt-module-into-summary.xt-single-course-header.clearfix
+					h1.course-title.entry-title(itemprop='name') Module Intro Summary
+					p!= course.introsummary
+				.xt-module-into-summary.xt-single-course-header.clearfix
+					h1.course-title.entry-title(itemprop='name') Module Description
+					p!= course.moduledescription
+				.xt-module-into-summary.xt-single-course-header.clearfix
+					h1.course-title.entry-title(itemprop='name') Module Overview summary
+					p!= course.moduleoverview
+				.xt-module-into-summary.xt-single-course-header.clearfix
+					h1.course-title.entry-title(itemprop='name') List of features
+					p!= course.listoffetures
+				.xt-module-into-summary.xt-single-course-header.clearfix
+					h1.course-title.entry-title(itemprop='name') List of Benefits
+					p!= course.listofbenifits
+				.xt-module-into-summary.xt-single-course-header.clearfix
+					h1.course-title.entry-title(itemprop='name') Download of features and Benefits
+					a.glyphicon.glyphicon-save-file.downloadfile(href= homeurl + '/uploads/'+course.benifitsFile.filename target='_blank') 
+				.xt-module-into-summary.xt-single-course-header.clearfix
+					h1.course-title.entry-title(itemprop='name') Quize
+					if course.questions.length
+						- var counter = 1
+						form(method='post')
+							each question in course.questions
+								.quizewrap
+									h4= `${counter} ) ${ question.name}`
+									div
+										ul.quize_section
+											li
+												input(type='radio', name=question._id, value=question.answer1 data-id=question._id)
+												p.code= question.answer1
+											li
+												input(type='radio', name=question._id, value=question.answer2 data-id=question._id)
+												p.code= question.answer2
+											li
+												input(type='radio', name=question._id, value=question.answer3 data-id=question._id)
+												p.code= question.answer3
+											li
+												input(type='radio', name=question._id, value=question.answer4 data-id=question._id)
+												p.code= question.answer4
+								- counter++	
+							input.btn.btn-primary.viewresult(type='submit', value='View Results')
+				if data.results
+					.xt-module-into-summary.xt-single-course-header.clearfix
+						h1.course-title.entry-title(itemprop='name') Quiz Results
+						ol.answerwrap
+							each answer in data.results
+								li(class=answer.answer === 'Correct' ? 'text-success' : 'text-danger')= answer.answer
+
+block js
+	script.
+		jQuery('.viewresult').on('click', function (e) {
+			e.preventDefault();
+			var totalquestion = jQuery('.quizewrap ul.quize_section').length;
+			var num_of_select = jQuery(".quizewrap ul.quize_section input[type='radio']:checked").length;
+			if(num_of_select < totalquestion){
+				    alert('Please select answer..');
+					return false;
+			}else{
+				jQuery("form").submit();
+			}
+		});									
+

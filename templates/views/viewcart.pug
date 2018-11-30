@@ -1,0 +1,62 @@
+extends ../layouts/default
+
+block content
+	block content
+	.container: .row
+		.col-xs-8
+			.panel.panel-info
+				.panel-heading
+					.panel-title
+						.row
+							.col-xs-6
+								h5
+									span.glyphicon.glyphicon-shopping-cart
+									|  Shopping Cart
+							.col-xs-6
+								a.btn.btn-primary.btn-sm.btn-block(href='/products/')
+									span.glyphicon.glyphicon-share-alt
+									|  Continue shopping
+				.panel-body
+					- var total = 0
+					if cart	
+						each items in cart
+							- var sub = parseFloat(items.qty * items.price).toFixed(2)
+							- total += +sub
+							.row
+								.col-xs-2
+									img.img-responsive(src=items.image)
+								.col-xs-4
+									h4.product-name
+										strong= items.title
+								.col-xs-6
+									.col-xs-6.text-right
+										h6
+											strong= `$${parseFloat(items.price).toFixed(2)}`
+												span.text-muted  x
+									.col-xs-4.update_cartwrap
+										a(href='/cart/addqty/?id='+ items.id)
+											span.glyphicon.glyphicon-plus
+										span.qtywrap= items.qty
+										a(href='/cart/removeqty/?id='+ items.id)
+											span.glyphicon.glyphicon-minus
+									.col-xs-2
+										a.btn.btn-link.btn-xs.confirm-del(href='/cart/remove/?id='+ items.id)
+											span.glyphicon.glyphicon-trash  
+							hr
+					else
+						h3.text-muted Your cart is empty!!.				
+				.panel-footer
+					.row.text-center
+						.col-xs-9
+							h4.text-right
+								| Total 
+								strong= `$${parseFloat(total).toFixed(2)}`
+						.col-xs-3
+							button.btn.btn-success.btn-block(type='button')
+								| Checkout
+block js
+	script.
+		jQuery('a.confirm-del').on('click', function () {
+			if (!confirm('Confirm Delete Cart'))
+				return false;
+		});

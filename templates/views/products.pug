@@ -1,0 +1,63 @@
+extends ../layouts/default
+
+block intro
+	.container
+		h1 List of products
+
+block content
+	block content
+	.container: .row
+		.col-sm-8.col-md-9
+			if filters.category && !data.category
+				h3.text-muted Invalid Category.
+			else
+				.row.display-flex
+					if data.products.results.length
+						each product in data.products.results
+							.col-sm-6.col-md-4.btm20
+								.thumbnail
+									h4.text-center
+									span.label.label-info= product.categories.name
+									if product.image.exists
+										a(href='/details/' + product.slug): img.img-responsiv(src=product._.image.fit(160,160))
+									.caption
+										.row
+											.col-md-6.col-xs-6
+												h3: a(href='/details/' + product.slug)= product.name
+											.col-md-6.col-xs-6.price
+												h3
+													label= `$${parseFloat(product.price).toFixed(2)}`
+										.row
+											.col-md-12
+												a.btn.align-items-center.btn-success.btn-product(href='/cart/add/?id='+product._id )
+													span.glyphicon.glyphicon-shopping-cart
+													|  Add to cart
+						if data.products.totalPages > 1
+							.col-sm-12.col-md-12
+								ul.pagination
+									if data.products.previous
+										li: a(href='?page=' + data.products.previous): span.glyphicon.glyphicon-chevron-left
+									else
+										li.disabled: a(href='?page=' + 1): span.glyphicon.glyphicon-chevron-left
+									each p, i in data.products.pages
+										li(class=data.products.currentPage == p ? 'active' : null)
+											a(href='?page=' + (p == '...' ? (i ? data.products.totalPages : 1) : p ))= p
+									if data.products.next
+										li: a(href='?page=' + data.products.next): span.glyphicon.glyphicon-chevron-right
+									else
+										li.disabled: a(href='?page=' + data.products.totalPages): span.entypo.glyphicon.glyphicon-chevron-right
+					else
+						if data.category
+							h3.text-muted There are no Products in the category #{data.category.name}.
+						else
+							h3.text-muted Products Not Found.	
+		.col-sm-4.col-md-3
+			.lead.text-muted Categories
+			if data.categories.length
+				ul.nav.nav-pills.nav-stacked
+					li(class=!data.category ? 'active' : false)
+						a(href='/products') All
+					each cat in data.categories
+						li(class=data.category  &&  data.category.name == cat.name ? 'active' : false )
+							a(href='/products/' + cat.key)= cat.name
+								span.badge.pull-right= cat.productCount

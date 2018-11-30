@@ -1,0 +1,35 @@
+extends ../layouts/default
+
+block intro
+	.container
+		h1 
+
+block content
+	block content
+	- var product = data.product
+	.container: .row
+		if !product
+			h2 Invalid product.
+		else		
+			.col-sm-8.col-md-9
+				.row
+					.col-sm-7
+						if product.image.exists
+							img.img-responsiv(src=product._.image.fit(750,450))
+					.col-sm-5(style='padding-right: 0px')
+						h1= product.name
+						p!= product.description
+						.product-price-product= `$${parseFloat(product.price).toFixed(2)}`
+						a.btn.align-items-center.btn-success.btn-product(href='/cart/add/?id='+product._id )
+							span.glyphicon.glyphicon-shopping-cart
+							|  Add to cart				
+			.col-sm-4.col-md-3
+				.lead.text-muted Categories
+				if data.categories.length
+					ul.nav.nav-pills.nav-stacked
+						li(class=!data.category ? 'active' : false)
+							a(href='/products') All
+						each cat in data.categories
+							li(class=data.category  &&  data.category.name == cat.name ? 'active' : false )
+								a(href='/products/' + cat.key)= cat.name
+									span.badge.pull-right= cat.productCount

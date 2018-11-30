@@ -1,0 +1,32 @@
+extends ../layouts/default
+
+block intro
+	.container
+		h1 Serch Results
+
+block content
+	block content
+	.container: .row
+		.col-sm-8.col-md-9
+				.row
+					if data.products.length
+						each product in data.products.results
+							.col-sm-6.col-md-4
+								.thumbnail
+									h4.text-center
+									span.label.label-info= test
+									if product.image.exists
+										a(href='/details/' + product.slug): img.img-responsiv(src=product._.image.fit(160,160))
+									.caption
+										.row
+											.col-md-6.col-xs-6
+												h3: a(href='/details/' + product.slug)= product.name
+											.col-md-6.col-xs-6.price
+												h3
+													label= `$${parseFloat(product.price).toFixed(2)}`
+										.row
+											.col-md-12
+												a.btn.align-items-center.btn-success.btn-product(href='/cart/add/?id='+product._id )
+													span.glyphicon.glyphicon-shopping-cart
+													|  Add to cart
+						

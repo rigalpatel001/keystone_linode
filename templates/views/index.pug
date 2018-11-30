@@ -1,0 +1,18 @@
+extends ../layouts/default
+
+block content
+	.container-fluid.home-image
+	.container
+		h2.align-center.mbr-fonts-style.mbr-section-title.display-2 Top Categories
+		.row.main.justify-content-center
+		if categories.length
+			each cat in categories
+				.col-sm-6.col-md-4
+					.thumbnail
+						a(href='products/'+ cat.key): img.img-responsiv(src=cat._.image.fit(200,200))
+						.caption
+							.row
+								.col-md-12.col-xs-6
+									h3.text-center: a(href='products/'+ cat.key)= cat.name
+		else	
+			h3.text-muted Categories Not Found.	
