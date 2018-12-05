@@ -73,7 +73,6 @@ exports = module.exports = function (req, res) {
 		
 		q.exec(function(err, result) {
 			locals.data.courses	 = result;
-			console.log(result);
 			next(err);
 		});
 	});

@@ -150,7 +150,7 @@ var formData = JSON.stringify(form);
 						'Authorization': 'Bearer ' + sugarid
 					},
 					//local	uri: 'http://localhost:8888/SuiteCRM/api/v8/modules/Contacts',
-						uri: 'http://midasflow.net.au/api/v8/modules/Contacts',
+						uri: 'https://midasflow.net.au/api/v8/modules/Contacts',
 						method: 'POST',
 						body: formData
 					}, function (err, response, body) {
@@ -180,7 +180,7 @@ var formData = JSON.stringify(form);
 						'Content-Type': 'application/vnd.api+json',
 						'Authorization': 'Bearer ' + sugarid
 					},
-						uri: 'http://midasflow.net.au/api/v8/modules/Contacts',
+						uri: 'https://midasflow.net.au/api/v8/modules/Contacts',
 						method: 'GET'
 					}, function (err, res, body) {
 					//it works!
@@ -213,7 +213,7 @@ switch (locals.data.action) {
 						'Content-Type': 'application/vnd.api+json',
 						'Authorization': 'Bearer ' + sugarid
 					},
-						uri: 'http://midasflow.net.au/api/v8/modules/Contacts/'+locals.data.id,
+						uri: 'https://midasflow.net.au/api/v8/modules/Contacts/'+locals.data.id,
 						method: 'DELETE'
 					}, function (err, response, body) {
 					    if (!err) {
